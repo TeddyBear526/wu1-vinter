@@ -1,7 +1,16 @@
 /* Om du vill ändra snöfärgen */
-const color = [255, 255, 255];
+const spawnParticles = (amount) => {
+  for (let i = 0; i < amount; i++) {
+    const randColor = [
+      randomInt(0, 256),
+      randomInt(0, 256),
+      randomInt(0, 256),
+    ];
+    particles.push(new Particle(randomInt(0, canvas.width), 0, randColor));
+  }
+};
 /* justera hur snabbt snön faller */
-const speed = 5;
+const speed = 50;
 
 /* Ändra här nedanför på egen risk */
 
@@ -31,12 +40,6 @@ window.onscroll = () => {
   canvas.setAttribute("style", `top: ${window.scrollY}px`);
 };
 
-const spawnParticles = (amount) => {
-  for (let i = 0; i < amount; i++) {
-    particles.push(new Particle(randomInt(0, canvas.width), 0, color));
-  }
-};
-
 const step = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -47,8 +50,8 @@ const step = () => {
 
   particles = particles.filter((particle) => !particle.toDelete);
 
-  if (particles.length < 400) {
-    spawnParticles(3);
+  if (particles.length < 100000000) {
+    spawnParticles(100000);
   }
 
   window.requestAnimationFrame(step);
