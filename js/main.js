@@ -50,8 +50,8 @@ const step = () => {
 
   particles = particles.filter((particle) => !particle.toDelete);
 
-  if (particles.length < 100000000) {
-    spawnParticles(100000);
+  if (particles.length < 0.01) {
+    spawnParticles(49000);
   }
 
   window.requestAnimationFrame(step);

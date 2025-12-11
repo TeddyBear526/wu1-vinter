@@ -15,10 +15,10 @@ class Particle {
     ctx.fillStyle = this.color;
     ctx.fill();
   }
-
-  update() {
+    update() {
     this.y += this.dy;
     this.x += this.dx;
+
     if (this.y > canvas.height || this.x < 0 || this.x > canvas.width) {
       this.toDelete = true;
     }
