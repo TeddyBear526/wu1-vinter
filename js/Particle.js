@@ -5,7 +5,7 @@ class Particle {
     this.dy = (1 + Math.random() * 2) * speed / 1;
     this.dx = (-1 + Math.random() * 2) * speed / 1;
     this.color = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${Math.random()})`;
-    this.size = 2 + Math.floor(Math.random() * 2);
+    this.size = 2 + Math.floor(Math.random() * 50);
     this.toDelete = false;
   }
 
