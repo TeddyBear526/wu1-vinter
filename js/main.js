@@ -2,9 +2,9 @@
 const spawnParticles = (amount) => {
   for (let i = 0; i < amount; i++) {
     const randColor = [
-      randomInt(0, 256),
-      randomInt(0, 256),
-      randomInt(0, 256),
+      randomInt(255, 255),
+      randomInt(255, 255),
+      randomInt(255, 255),
     ];
     particles.push(new Particle(randomInt(0, canvas.width), 0, randColor));
   }
@@ -36,7 +36,7 @@ const playPing = (intensity = 1) => {
   osc.stop(t + 0.07);
 };
 /* justera hur snabbt snön faller */
-const speed = 5;
+const speed = 3;
 
 /* Ändra här nedanför på egen risk */
 
@@ -84,6 +84,9 @@ window.onscroll = () => {
 const step = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Draw connections first
+  drawConnections();
+  
   particles.forEach((particle) => {
     particle.draw();
     particle.update();
@@ -95,8 +98,10 @@ const step = () => {
 
   // Spawn as many as were deleted each frame, or init if empty
   if (deleted > 0 || particles.length === 0) {
-    spawnParticles(deleted > 0 ? deleted : 5000);
+    spawnParticles(deleted > 0 ? deleted : 200);
   }
+
+  drawConnections(); // Draw connections every frame
 
   window.requestAnimationFrame(step);
 };
@@ -120,3 +125,24 @@ if (title || message) {
   const messageElement = document.querySelector("#message");
   if (messageElement) messageElement.textContent = message;
 }
+
+const drawConnections = () => {
+  const maxDistance = 120; 
+  
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance < maxDistance) {
+        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - distance / maxDistance})`; 
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+};
